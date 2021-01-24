@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="gray-background">
       <img src={logo} lat="logo"/> 
-      <h2>와 와</h2>
+      <h2>와dhdhdhdhdhdhdhhd 와</h2>
     </div>
   );
 }
