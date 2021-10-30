@@ -7,65 +7,51 @@ import PropTypes from "prop-types";
 //2. Food function을 만들고 props로 값 부모로 전달하기
 //2-1. 값은 map으로 배열값을 형성하여 같은 레이아웃을 복붙하는 번거로움을 줄일수있다
 //3. npm i prop-type 설치 (내가 전달받은  props가 내가 원하는 props인지 확인해준다)  
-const foodILike = [
-    {
-      id:1,
-      name: "Kimchi",
-      image:"https://w.namu.la/s/a85e178b2233fa1e3461ae51dba6757e8cc87b215ea326660c85904f61daf0dcd84f8b8733cee71ca34fa743822d5aa1650766f6b2a90118edc5e76974e8305263694a4c2358508602ad7694e2cd022389545b2812f6e86bf29e05e172b53405",
-      rating: 5 
-    },
-    {
-      id:2,
-      name: "ramian",
-      image:"https://w.namu.la/s/9f15f198aab1b14c8aa47e96a91a9d03331ecb7b5b892c803159d39b0d77ab4be30e2f15f66191284d7dad8371989329cc1c80810745e980a6949ae5e3589df64d239a3ca63c5a7574a4ad2656633c8c",
-      rating: 4.5 
-    },
-    {
-      id:3,
-      name: "Kimchi",
-      image:"https://w.namu.la/s/a85e178b2233fa1e3461ae51dba6757e8cc87b215ea326660c85904f61daf0dcd84f8b8733cee71ca34fa743822d5aa1650766f6b2a90118edc5e76974e8305263694a4c2358508602ad7694e2cd022389545b2812f6e86bf29e05e172b53405",
-      rating:3 
-    },
-    {
-      id:4,
-      name: "Kimchi",
-      image:"https://w.namu.la/s/a85e178b2233fa1e3461ae51dba6757e8cc87b215ea326660c85904f61daf0dcd84f8b8733cee71ca34fa743822d5aa1650766f6b2a90118edc5e76974e8305263694a4c2358508602ad7694e2cd022389545b2812f6e86bf29e05e172b53405",
-      rating:2 
-    }
-]
+//4. props 말고 state를 사용해보자
+//5. class 컴포넌트와  function 컴포넌트의 차이를 알아보자 return을 쓰느냐 render을 쓰느냐 
+// class 컴포넌트는 자동적으로 실행된다고한다
+//6. state 값을 변경하지 마시오 
+// state자체를 변경하게 되면 render 메소드가 refresh를 안함 
+//7. setstate로 상태를 복사하고 this.setState({});를 사용한다
+//8. setstate로 상태를 변경하면서 count의 값을 this.state.count +1 로 지정하는데
+// 이 코드는 state값에 의존하고 있어 좋지 못한 코드이다
+//9. setState에다가 function 값으로 바꾸고 this.state를 current로 바꾼다~ 외부 상태에 의존을 하지 않아도 괜찮다!
+//10. react life cycle mounting(태어나는것) , updating(변화하는것), unmounting(죽는것)
+//mounting constroctor()
+class App extends React.Component{ 
+  constructor(props){
+    super(props);
+  }
 
-function Food({name, image, rating}){
+  state = {
+    //데이터 가져오고변경하기위해 state를 쓴다
+    count: 0
+  };
+  componentDidMount(){
+    console.log("Component renderd");
+  }
+  componentDidUpdate(){
+    console.log("I just updated");
+  }
+ 
+  add = () =>{
+    this.setState(current =>({ count: current.count + 1 })); 
 
-  return (
-    <>
-      <h1>I like {name}</h1>
-    <img src={image} alt={name}></img>
-    <h2>평점: {rating}/5.0</h2>
-    </>
-
-    )
-}
-
-Food.propTypes = { //타입을 확인할수 있다~ 이말이여
-  name:PropTypes.string.isRequired,
-  picture: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired
-
-};
-function App() {
-  //map은 배열에 하나하나 기능을 넣어 배열을 반환해주는 메서드 이다. 간편!
-  return (
-    <div className="App">
-      hello~ 
-      {foodILike.map(dish => 
-      <Food 
-        className ="food" 
-        key={dish.id} 
-        name={dish.name} 
-        image={dish.image}
-        rating={dish.rating}></Food>)}
-    </div>
-  );
-}
+  };
+  minus = () =>{
+    this.setState({ count:this.state.count - 1 });
+  }
+  
+  render(){
+    console.log('i am rendering')
+    return (
+      <div >
+        <h1>The number is : {this.state.count}</h1>
+        <button onClick={this.add}>Add</button>
+        <button onClick={this.minus}>Minus</button>
+      </div>
+    );
+   
+  }}
 
 export default App;
